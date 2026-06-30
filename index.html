@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6FN8TZPL3N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6FN8TZPL3N');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator SPX BANJARBARU SELATAN</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    width: 360px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+select, input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* TOGGLE */
+.toggle {
+    display: flex;
+    margin-bottom: 15px;
+    gap: 5px;
+}
+
+.toggle button {
+    background: #ddd;
+}
+
+.toggle .active {
+    background: #007bff;
+    color: white;
+}
+
+/* RESULT */
+.result {
+    margin-top: 15px;
+    padding: 12px;
+    background: #f1f5ff;
+    border-radius: 10px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.total {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>SPX Banjarbaru Selatan</h2>
+
+    <div class="toggle">
+        <button onclick="gantiBulan('mei')" id="btnMei" class="active">
+            Prod Mei
+        </button>
+
+        <button onclick="gantiBulan('juni')" id="btnJuni">
+            Prod Juni
+        </button>
+    </div>
+
+  <div class="toggle">
+    <button onclick="showMode('target')" id="btnTarget" class="active">
+        Target Paket
+    </button>
+
+    <button onclick="showMode('insentif')" id="btnInsentif">
+        Kalkulator Insentif
+    </button>
+</div>
+
+    <!-- ================= TARGET MODE ================= -->
+    <div id="modeTarget">
+        <label>Pilih Tipe Kurir</label>
+        <select id="tipeTarget">
+            <option value="dedicated">Dedicated</option>
+            <option value="plus">Kurir Plus</option>
+        </select>
+
+        <label>Target Bonus (Rp)</label>
+        <input type="text" id="bonusTarget" inputmode="numeric" placeholder="Rp 0">
+
+        <label>Jumlah Hari Kerja</label>
+        <input type="number" id="hari" value="26">
+
+        <button onclick="hitungTarget()" style="background:#ff6600;color:white;">Hitung</button>
+
+        <div class="result" id="hasilTarget"></div>
+    </div>
+
+    <!-- ================= INSENTIF MODE ================= -->
+    <div id="modeInsentif" style="display:none;">
+
+        <label>Pilih Tipe Kurir</label>
+        <select id="tipe">
+            <option value="dedicated">Dedicated</option>
+            <option value="plus">Kurir Plus</option>
+        </select>
+
+        <label>Total Paket Terkirim</label>
+        <input type="number" id="total">
+
+        <button onclick="hitung()" style="background:#007bff;color:white;">Hitung</button>
+
+        <div class="result" id="hasil">Belum ada perhitungan</div>
+    </div>
+
+</div>
+
+<script>
+  let bulanAktif = "mei";
+
+const DATA = {
+
+    mei: {
+        dedicated: {
+            t1: 1900,
+            t2: 3060,
+            b1: 800,
+            b2: 1100
+        },
+        plus: {
+            t1: 1100,
+            t2: 2950,
+            b1: 525,
+            b2: 900
+        }
+    },
+
+    juni: {
+        dedicated: {
+            t1: 1960,
+            t2: 3130,
+            b1: 800,
+            b2: 1100
+        },
+        plus: {
+            t1: 1250,
+            t2: 2950,
+            b1: 525,
+            b2: 900
+        }
+    }
+
+};
+
+  function gantiBulan(bulan){
+
+    bulanAktif = bulan;
+
+    document.getElementById("btnMei").classList.remove("active");
+    document.getElementById("btnJuni").classList.remove("active");
+
+    if(bulan === "mei"){
+        document.getElementById("btnMei").classList.add("active");
+    }else{
+        document.getElementById("btnJuni").classList.add("active");
+    }
+
+}
+  
+function formatRupiah(angka) {
+    return 'Rp' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+/* ================= TOGGLE ================= */
+function showMode(mode) {
+    let target = document.getElementById("modeTarget");
+    let insentif = document.getElementById("modeInsentif");
+
+    let btnT = document.getElementById("btnTarget");
+    let btnI = document.getElementById("btnInsentif");
+
+    if (mode === "target") {
+        target.style.display = "block";
+        insentif.style.display = "none";
+        btnT.classList.add("active");
+        btnI.classList.remove("active");
+
+        if (typeof gtag === "function") {
+            gtag('event', 'switch_mode', { mode: 'target' });
+        }
+
+    } else {
+        target.style.display = "none";
+        insentif.style.display = "block";
+        btnT.classList.remove("active");
+        btnI.classList.add("active");
+
+        if (typeof gtag === "function") {
+            gtag('event', 'switch_mode', { mode: 'insentif' });
+        }
+    }
+}
+
+/* ================= TARGET ================= */
+function hitungTarget() {
+    let tipe = document.getElementById('tipeTarget').value;
+    let bonusTarget = parseInt(
+    document.getElementById('bonusTarget').value.replace(/[^0-9]/g, "")
+) || 0;
+    let hari = parseInt(document.getElementById('hari').value) || 1;
+
+    let { b1, b2, t1, t2 } = DATA[bulanAktif][tipe];
+
+    let maxTier1 = (t2 - t1) * b1;
+
+    let paket = 0;
+
+    if (bonusTarget <= maxTier1) {
+        // cukup di tier 1
+        paket = t1 + Math.ceil(bonusTarget / b1);
+    } else {
+        // lanjut ke tier 2
+        let sisaBonus = bonusTarget - maxTier1;
+        paket = t2 + Math.ceil(sisaBonus / b2);
+    }
+
+    let perHari = Math.ceil(paket / hari);
+
+    document.getElementById('hasilTarget').innerHTML = `
+        Target Paket: <b>${paket}</b><br>
+        Paket per Hari: <b>${perHari}</b><br>
+        Estimasi Hari: <b>${hari} hari</b>
+    `;
+    if (typeof gtag === "function") {
+    gtag('event', 'hitung_target', {
+        tipe: tipe,
+        bonus: bonusTarget
+    });
+}
+}
+
+/* ================= INSENTIF ================= */
+function setDefaultTarget() {
+    let tipe = document.getElementById('tipe').value;
+    let { t1, t2 } = DATA[bulanAktif][tipe];
+
+    document.getElementById('target1').value = t1;
+    document.getElementById('target2').value = t2;
+}
+  
+function hitung() {
+    let tipe = document.getElementById('tipe').value;
+    let total = parseInt(document.getElementById('total').value) || 0;
+
+    let { b1, b2, t1, t2 } = DATA[bulanAktif][tipe];
+
+    let paket1 = 0;
+    let paket2 = 0;
+
+    if (total > t1) {
+        paket1 = Math.min(total, t2) - t1;
+    }
+
+    if (total > t2) {
+        paket2 = total - t2;
+    }
+
+    let bonus1 = paket1 * b1;
+    let bonus2 = paket2 * b2;
+    let totalBonus = bonus1 + bonus2;
+
+    document.getElementById('hasil').innerHTML = `
+    <b>Tipe:</b> ${tipe === "dedicated" ? "Dedicated" : "Kurir Plus"}<br><br>
+    Tier 1: ${paket1} paket (${formatRupiah(bonus1)})<br>
+    Tier 2: ${paket2} paket (${formatRupiah(bonus2)})<br>
+    <div class="total">Total Bonus: ${formatRupiah(totalBonus)}</div>
+`;
+    if (typeof gtag === "function") {
+    gtag('event', 'hitung_insentif', {
+        tipe: tipe,
+        total_paket: total
+    });
+}
+}
+    window.addEventListener("DOMContentLoaded", function() {
+    const bonusInput = document.getElementById("bonusTarget");
+
+    if (bonusInput) {
+        bonusInput.addEventListener("input", function() {
+            let angka = this.value.replace(/\D/g, "");
+            this.value = formatRupiahInput(angka);
+        });
+        
+    }
+});
+
+function formatRupiahInput(angka) {
+    if (!angka) return "Rp ";
+    return "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+</script>
+
+</body>
+</html>
