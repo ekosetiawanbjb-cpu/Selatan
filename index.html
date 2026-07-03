@@ -199,13 +199,13 @@ const DATA = {
 
     bulanAktif = bulan;
 
-    document.getElementById("btnMei").classList.remove("active");
     document.getElementById("btnJuni").classList.remove("active");
+    document.getElementById("btnJuli").classList.remove("active");
 
-    if(bulan === "mei"){
-        document.getElementById("btnMei").classList.add("active");
-    }else{
+    if(bulan === "juni"){
         document.getElementById("btnJuni").classList.add("active");
+    }else{
+        document.getElementById("btnJuli").classList.add("active");
     }
 
 }
