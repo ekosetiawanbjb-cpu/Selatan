@@ -101,12 +101,12 @@ button {
     <h2>SPX Banjarbaru Selatan</h2>
 
     <div class="toggle">
-        <button onclick="gantiBulan('juni')" id="btnJuni" class="active">
-            Prod Juni
+        <button onclick="gantiBulan('juli')" id="btnJuli" class="active">
+            Prod Juli
         </button>
 
-        <button onclick="gantiBulan('juli')" id="btnJuli">
-            Prod Juli
+        <button onclick="gantiBulan('agustus')" id="btnAgustus">
+            Prod Agustus
         </button>
     </div>
 
@@ -159,29 +159,29 @@ button {
 </div>
 
 <script>
-  let bulanAktif = "juni";
+  let bulanAktif = "juli";
 
 const DATA = {
-
-    juni: {
-        dedicated: {
-            t1: 1960,
-            t2: 3130,
-            b1: 800,
-            b2: 1100
-        },
-        plus: {
-            t1: 1250,
-            t2: 2950,
-            b1: 525,
-            b2: 900
-        }
-    },
 
     juli: {
         dedicated: {
             t1: 1400,
             t2: 2740,
+            b1: 800,
+            b2: 1100
+        },
+        plus: {
+            t1: 550,
+            t2: 700,
+            b1: 675,
+            b2: 1175
+        }
+    },
+
+    agustus: {
+        dedicated: {
+            t1: 770,
+            t2: 1235,
             b1: 800,
             b2: 1100
         },
@@ -199,13 +199,13 @@ const DATA = {
 
     bulanAktif = bulan;
 
-    document.getElementById("btnJuni").classList.remove("active");
     document.getElementById("btnJuli").classList.remove("active");
+    document.getElementById("btnAgustus").classList.remove("active");
 
-    if(bulan === "juni"){
-        document.getElementById("btnJuni").classList.add("active");
-    }else{
+    if(bulan === "juli"){
         document.getElementById("btnJuli").classList.add("active");
+    }else{
+        document.getElementById("btnAgustus").classList.add("active");
     }
 
 }
@@ -314,8 +314,8 @@ function hitung() {
 
     document.getElementById('hasil').innerHTML = `
     <b>Tipe:</b> ${tipe === "dedicated" ? "Dedicated" : "Kurir Plus"}<br><br>
-    Tier 1: ${paket1} paket (${formatRupiah(bonus1)})<br>
-    Tier 2: ${paket2} paket (${formatRupiah(bonus2)})<br>
+    Productivity 1: ${paket1} paket (${formatRupiah(bonus1)})<br>
+    Productivity 2: ${paket2} paket (${formatRupiah(bonus2)})<br>
     <div class="total">Total Bonus: ${formatRupiah(totalBonus)}</div>
 `;
     if (typeof gtag === "function") {
