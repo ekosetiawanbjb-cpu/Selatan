@@ -101,12 +101,12 @@ button {
     <h2>SPX Banjarbaru Selatan</h2>
 
     <div class="toggle">
-        <button onclick="gantiBulan('agustus')" id="btnAgustus" class="active">
-            Prod Agustus
+        <button onclick="gantiBulan('september')" id="btnSeptember" class="active">
+            Prod September
         </button>
 
-        <button onclick="gantiBulan('september')" id="btnSeptember">
-            Prod September
+        <button onclick="gantiBulan('oktober')" id="btnOktober">
+            Prod Oktober
         </button>
     </div>
 
@@ -159,24 +159,9 @@ button {
 </div>
 
 <script>
-  let bulanAktif = "agustus";
+  let bulanAktif = "september";
 
 const DATA = {
-
-    agustus: {
-        dedicated: {
-            t1: 770,
-            t2: 1235,
-            b1: 800,
-            b2: 1100
-        },
-        plus: {
-            t1: 550,
-            t2: 700,
-            b1: 675,
-            b2: 1175
-        }
-    },
 
     september: {
         dedicated: {
@@ -191,6 +176,21 @@ const DATA = {
             b1: 675,
             b2: 1175
         }
+    },
+
+    oktober: {
+        dedicated: {
+            t1: 2735,
+            t2: 3335,
+            b1: 800,
+            b2: 1100
+        },
+        plus: {
+            t1: 930,
+            t2: 1185,
+            b1: 500,
+            b2: 900
+        }
     }
 
 };
@@ -199,13 +199,13 @@ const DATA = {
 
     bulanAktif = bulan;
 
-    document.getElementById("btnAgustus").classList.remove("active");
     document.getElementById("btnSeptember").classList.remove("active");
+    document.getElementById("btnOktober").classList.remove("active");
 
-    if(bulan === "agustus"){
-        document.getElementById("btnAgustus").classList.add("active");
-    }else{
+    if(bulan === "september"){
         document.getElementById("btnSeptember").classList.add("active");
+    }else{
+        document.getElementById("btnOktober").classList.add("active");
     }
 
 }
@@ -314,8 +314,8 @@ function hitung() {
 
     document.getElementById('hasil').innerHTML = `
     <b>Tipe:</b> ${tipe === "dedicated" ? "Dedicated" : "Kurir Plus"}<br><br>
-    Productivity 1: ${paket1} paket (${formatRupiah(bonus1)})<br>
-    Productivity 2: ${paket2} paket (${formatRupiah(bonus2)})<br>
+    Prod 1: ${paket1} paket (${formatRupiah(bonus1)})<br>
+    Prod 2: ${paket2} paket (${formatRupiah(bonus2)})<br>
     <div class="total">Total Bonus: ${formatRupiah(totalBonus)}</div>
 `;
     if (typeof gtag === "function") {
